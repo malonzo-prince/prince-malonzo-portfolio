@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ExternalLink, Github } from 'lucide-react'
 import Image from 'next/image'
@@ -124,6 +124,7 @@ const projects = [
 ]
 
 const FILTERS: ProjectCategory[] = ['All', 'Frontend', 'Backend', 'Fullstack']
+const ITEMS_PER_PAGE = 6
 
 const categoryColor: Record<string, string> = {
   Fullstack: 'text-blue-500 bg-blue-500/10 border-blue-500/20',
@@ -133,9 +134,26 @@ const categoryColor: Record<string, string> = {
 
 export function ProjectsSection() {
   const [filter, setFilter] = useState<ProjectCategory>('All')
+  const [currentPage, setCurrentPage] = useState(1)
 
   const filtered =
     filter === 'All' ? projects : projects.filter((p) => p.category === filter)
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE))
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
+  const paginatedProjects = filtered.slice(startIndex, startIndex + ITEMS_PER_PAGE)
+
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [filter])
+
+  useEffect(() => {
+    if (currentPage > totalPages) {
+      setCurrentPage(totalPages)
+    }
+  }, [currentPage, totalPages])
+
+  const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1)
 
   return (
     <SectionWrapper id="projects">
@@ -173,9 +191,9 @@ export function ProjectsSection() {
         {/* Projects grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           <AnimatePresence mode="popLayout">
-            {filtered.map((project, i) => (
+            {paginatedProjects.map((project, i) => (
               <motion.article
-                key={project.title}
+                key={`${project.title}-${currentPage}`}
                 layout
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -260,6 +278,42 @@ export function ProjectsSection() {
             ))}
           </AnimatePresence>
         </div>
+
+        {totalPages > 1 && (
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              className="rounded-full"
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage((page) => Math.max(1, page - 1))}
+            >
+              Previous
+            </Button>
+
+            {pageNumbers.map((page) => (
+              <Button
+                key={page}
+                size="sm"
+                variant={currentPage === page ? 'default' : 'outline'}
+                className="h-8 min-w-8 rounded-full px-3"
+                onClick={() => setCurrentPage(page)}
+              >
+                {page}
+              </Button>
+            ))}
+
+            <Button
+              variant="outline"
+              size="sm"
+              className="rounded-full"
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage((page) => Math.min(totalPages, page + 1))}
+            >
+              Next
+            </Button>
+          </div>
+        )}
 
         {/* GitHub CTA */}
         <motion.div
