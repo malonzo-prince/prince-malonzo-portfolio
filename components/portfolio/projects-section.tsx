@@ -2,134 +2,155 @@
 
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ExternalLink, Github } from 'lucide-react'
+import { Briefcase, ExternalLink, Lock } from 'lucide-react'
 import Image from 'next/image'
 import { SectionWrapper, SectionHeading } from './section-wrapper'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
-type ProjectCategory = 'All' | 'Frontend' | 'Backend' | 'Fullstack'
+type ProjectCategory = 'All' | 'Frontend' | 'Fullstack'
 
-const projects = [
+type Project = {
+  title: string
+  description: string
+  category: Exclude<ProjectCategory, 'All'>
+  role: string
+  tech: string[]
+  image: string
+  demo: string | null
+  featured: boolean
+}
+
+const projects: Project[] = [
   {
-    title: 'TaskFlow — Agile PM Platform',
-    description:
-      'A full-featured project management system with Kanban boards, sprint planning, team assignment, and burndown charts. Built for Agile/Scrum teams.',
+    title: 'I-Track Isuzu Pasig',
+    description: 'VSMS - Vehicle Service Management System.',
     category: 'Fullstack',
-    tech: ['Next.js', 'TypeScript', 'Supabase', 'Tailwind CSS', 'Framer Motion'],
+    role: 'Solo Freelance Full Stack Web & Mobile App',
+    tech: [
+      'Next.js',
+      'TypeScript',
+      'Tailwind CSS',
+      'React Native',
+      'Firebase',
+      'Node.js',
+      'Express.js',
+      'MongoDB',
+      'Vercel',
+      'Render',
+    ],
     image: '/images/projects/taskflow.jpg',
-    github: 'https://github.com/malonzo-prince',
-    demo: 'https://github.com/malonzo-prince',
+    demo: 'https://www.itrackpasig.site/',
     featured: true,
   },
   {
-    title: 'DevHire — Intern Management System',
-    description:
-      'Internal system for managing interns, tracking hours, assigning tasks, and generating reports. Deployed at Microgenesis to manage 16 interns.',
+    title: 'Tailwatch',
+    description: 'PMS - Pet Management System.',
     category: 'Fullstack',
-    tech: ['React', 'Node.js', 'Express.js', 'MongoDB', 'JWT Auth'],
+    role: 'Solo Freelance Full Stack Web',
+    tech: [
+      'Next.js',
+      'TypeScript',
+      'Tailwind CSS',
+      'Node.js',
+      'Express.js',
+      'MongoDB',
+      'Vercel',
+      'Render',
+    ],
     image: '/images/projects/devhire.jpg',
-    github: 'https://github.com/malonzo-prince',
-    demo: 'https://github.com/malonzo-prince',
+    demo: 'https://www.tailwatch.online/',
     featured: true,
   },
   {
-    title: 'ShopNest — E-Commerce Platform',
-    description:
-      'Multi-vendor e-commerce platform with product listings, cart, checkout, and admin dashboard. Supports real-time inventory updates.',
+    title: 'BTrConnect',
+    description: 'HCM & Applicant system for Bureau of Treasury.',
     category: 'Fullstack',
-    tech: ['Next.js', 'NeonDB', 'Stripe', 'Tailwind CSS', 'TypeScript'],
+    role: 'Full Stack Developer',
+    tech: ['Next.js', 'TypeScript', 'Supabase', 'PostgreSQL', 'Python', 'Django', 'Tailwind CSS'],
     image: '/images/projects/shopnest.jpg',
-    github: 'https://github.com/malonzo-prince',
-    demo: 'https://github.com/malonzo-prince',
+    demo: null,
     featured: false,
   },
   {
-    title: 'AuthKit — Authentication Microservice',
-    description:
-      'Secure REST API for authentication with JWT, refresh tokens, role-based access control, and rate limiting. Deployed on Railway.',
-    category: 'Backend',
-    tech: ['Node.js', 'Express.js', 'MongoDB', 'Redis', 'Docker'],
+    title: 'Microgenesis Central Hub',
+    description: 'System Management for Microgenesis employees.',
+    category: 'Fullstack',
+    role: 'Full Stack Developer',
+    tech: ['Next.js', 'TypeScript', 'Supabase', 'PostgreSQL', 'Python', 'Django', 'Tailwind CSS'],
     image: '/images/projects/authkit.jpg',
-    github: 'https://github.com/malonzo-prince',
-    demo: 'https://github.com/malonzo-prince',
+    demo: null,
     featured: false,
   },
   {
-    title: 'MedTrack — Patient Records System',
-    description:
-      'Web app for clinics to manage patient records, appointment scheduling, and prescriptions with role-based dashboards for doctors and staff.',
-    category: 'Fullstack',
-    tech: ['React', 'Django', 'PostgreSQL', 'Tailwind CSS', 'Python'],
+    title: 'Prolab Microgenesis',
+    description: 'Renewal Care System.',
+    category: 'Frontend',
+    role: 'Frontend Developer',
+    tech: ['HTML', 'CSS', 'JavaScript', 'PHP', 'Python', 'Django', 'Azure SQL Database'],
     image: '/images/projects/medtrack.jpg',
-    github: 'https://github.com/malonzo-prince',
-    demo: 'https://github.com/malonzo-prince',
+    demo: null,
     featured: false,
   },
   {
-    title: 'PortfolioGen — Dynamic Portfolio Builder',
-    description:
-      'Drag-and-drop portfolio builder allowing developers to create and publish personal portfolio sites without writing code.',
-    category: 'Frontend',
-    tech: ['Next.js', 'TypeScript', 'Firebase', 'Framer Motion', 'Tailwind CSS'],
-    image: '/images/projects/portfoliogen.jpg',
-    github: 'https://github.com/malonzo-prince',
-    demo: 'https://github.com/malonzo-prince',
-    featured: false,
-  },
-  {
-    title: 'RealTalk — Real-Time Chat App',
-    description:
-      'Messaging platform with rooms, direct messages, file sharing, and read receipts. Uses WebSockets for sub-100ms message delivery.',
+    title: 'OneOps Microgenesis',
+    description: 'TASS Management System.',
     category: 'Fullstack',
-    tech: ['Next.js', 'Socket.io', 'Node.js', 'MongoDB', 'TypeScript'],
+    role: 'Project Manager / Full Stack Developer',
+    tech: ['Next.js', 'TypeScript', 'Supabase', 'PostgreSQL', 'Python', 'Django', 'Tailwind CSS'],
+    image: '/images/projects/portfoliogen.jpg',
+    demo: null,
+    featured: false,
+  },
+  {
+    title: 'Microgenesis Asset Sync',
+    description: 'Confidential internal asset synchronization system.',
+    category: 'Fullstack',
+    role: 'Full Stack Developer',
+    tech: ['Next.js', 'TypeScript', 'Supabase', 'PostgreSQL', 'Python', 'Django', 'Tailwind CSS'],
     image: '/images/projects/realtalk.jpg',
-    github: 'https://github.com/malonzo-prince',
-    demo: 'https://github.com/malonzo-prince',
+    demo: null,
     featured: false,
   },
   {
-    title: 'DataPulse — Analytics Dashboard',
-    description:
-      'Real-time business analytics dashboard with interactive charts, KPI cards, data filtering, and CSV export functionality.',
-    category: 'Frontend',
-    tech: ['React', 'TypeScript', 'Recharts', 'Tailwind CSS', 'SWR'],
+    title: 'Internova Microgenesis',
+    description: 'Intern Project Management System.',
+    category: 'Fullstack',
+    role: 'Project Manager / Full Stack Developer',
+    tech: ['Next.js', 'TypeScript', 'Supabase', 'PostgreSQL', 'Python', 'Django', 'Tailwind CSS'],
     image: '/images/projects/datapulse.jpg',
-    github: 'https://github.com/malonzo-prince',
-    demo: 'https://github.com/malonzo-prince',
+    demo: null,
     featured: false,
   },
   {
-    title: 'NewsAPI Aggregator',
+    title: 'iBayaniHub',
     description:
-      'Serverless backend that aggregates news from multiple RSS and REST sources, normalizes data, and exposes a unified GraphQL API.',
-    category: 'Backend',
-    tech: ['Node.js', 'GraphQL', 'Redis', 'Vercel Functions', 'TypeScript'],
+      'School Capstone Project - Volunteer & Donation Management System for client Caritas Manila.',
+    category: 'Fullstack',
+    role: 'Project Manager / Full Stack Developer Web & Mobile App',
+    tech: ['React', 'HTML', 'CSS', 'Node.js', 'Express.js', 'MongoDB', 'React Native'],
     image: '/images/projects/newsapi.jpg',
-    github: 'https://github.com/malonzo-prince',
-    demo: 'https://github.com/malonzo-prince',
+    demo: 'https://ibayanihub.site/',
     featured: false,
   },
   {
-    title: 'LandKit — Marketing Landing Page Kit',
-    description:
-      'Component library of premium landing page sections with animations, dark mode, and easy theme customization for Next.js projects.',
-    category: 'Frontend',
-    tech: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Radix UI'],
+    title: 'WorkLoom',
+    description: 'School Group Project - Job Finder Website.',
+    category: 'Fullstack',
+    role: 'Project Manager / Full Stack Developer Web',
+    tech: ['React', 'HTML', 'CSS', 'Node.js', 'Express.js', 'MongoDB'],
     image: '/images/projects/landkit.jpg',
-    github: 'https://github.com/malonzo-prince',
-    demo: 'https://github.com/malonzo-prince',
+    demo: null,
     featured: false,
   },
 ]
 
-const FILTERS: ProjectCategory[] = ['All', 'Frontend', 'Backend', 'Fullstack']
+const FILTERS: ProjectCategory[] = ['All', 'Fullstack', 'Frontend']
 const ITEMS_PER_PAGE = 6
 
-const categoryColor: Record<string, string> = {
+const categoryColor: Record<Exclude<ProjectCategory, 'All'>, string> = {
   Fullstack: 'text-blue-500 bg-blue-500/10 border-blue-500/20',
   Frontend: 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20',
-  Backend: 'text-violet-500 bg-violet-500/10 border-violet-500/20',
 }
 
 export function ProjectsSection() {
@@ -137,7 +158,7 @@ export function ProjectsSection() {
   const [currentPage, setCurrentPage] = useState(1)
 
   const filtered =
-    filter === 'All' ? projects : projects.filter((p) => p.category === filter)
+    filter === 'All' ? projects : projects.filter((project) => project.category === filter)
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE))
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
@@ -161,10 +182,9 @@ export function ProjectsSection() {
         <SectionHeading
           eyebrow="Projects"
           title="Things I've Built"
-          subtitle="A curated selection of fullstack systems, APIs, and frontend experiences."
+          subtitle="A selection of freelance, enterprise, and academic systems across web and mobile."
         />
 
-        {/* Filter tabs */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -172,23 +192,22 @@ export function ProjectsSection() {
           transition={{ duration: 0.4 }}
           className="flex justify-center gap-2 mb-10 flex-wrap"
         >
-          {FILTERS.map((f) => (
+          {FILTERS.map((projectFilter) => (
             <button
-              key={f}
-              onClick={() => setFilter(f)}
+              key={projectFilter}
+              onClick={() => setFilter(projectFilter)}
               className={cn(
                 'px-5 py-2 text-sm font-medium rounded-full border transition-all duration-200',
-                filter === f
+                filter === projectFilter
                   ? 'bg-primary text-primary-foreground border-primary shadow-md shadow-primary/20'
                   : 'border-border text-muted-foreground hover:text-foreground hover:border-primary/30 hover:bg-muted'
               )}
             >
-              {f}
+              {projectFilter}
             </button>
           ))}
         </motion.div>
 
-        {/* Projects grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           <AnimatePresence mode="popLayout">
             {paginatedProjects.map((project, i) => (
@@ -201,7 +220,6 @@ export function ProjectsSection() {
                 transition={{ duration: 0.35, delay: i * 0.05 }}
                 className="group relative flex flex-col rounded-2xl border border-border bg-card hover:border-primary/40 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 overflow-hidden"
               >
-                {/* Project image */}
                 <div className="relative w-full h-44 overflow-hidden bg-muted">
                   <Image
                     src={project.image}
@@ -209,9 +227,7 @@ export function ProjectsSection() {
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                   />
-                  {/* Overlay on hover */}
                   <div className="absolute inset-0 bg-background/0 group-hover:bg-background/10 transition-colors duration-300" />
-                  {/* Featured badge */}
                   {project.featured && (
                     <span className="absolute top-3 right-3 text-[10px] font-mono font-semibold text-primary bg-background/80 backdrop-blur-sm px-2 py-0.5 rounded-full border border-primary/30">
                       Featured
@@ -219,60 +235,59 @@ export function ProjectsSection() {
                   )}
                 </div>
 
-                {/* Card body */}
                 <div className="flex flex-col flex-1 p-6">
-                {/* Category badge */}
-                <span
-                  className={`inline-flex self-start text-[11px] font-mono font-medium px-2.5 py-0.5 rounded-full border mb-3 ${categoryColor[project.category]}`}
-                >
-                  {project.category}
-                </span>
+                  <span
+                    className={`inline-flex self-start text-[11px] font-mono font-medium px-2.5 py-0.5 rounded-full border mb-3 ${categoryColor[project.category]}`}
+                  >
+                    {project.category}
+                  </span>
 
-                {/* Title */}
-                <h3 className="font-bold text-foreground mb-2 leading-snug">{project.title}</h3>
+                  <h3 className="font-bold text-foreground mb-2 leading-snug">{project.title}</h3>
 
-                {/* Description */}
-                <p className="text-sm text-muted-foreground leading-relaxed flex-1 mb-4">
-                  {project.description}
-                </p>
+                  <p className="text-sm text-muted-foreground leading-relaxed mb-3">
+                    {project.description}
+                  </p>
 
-                {/* Tech stack */}
-                <div className="flex flex-wrap gap-1.5 mb-5">
-                  {project.tech.map((t) => (
-                    <span
-                      key={t}
-                      className="px-2 py-0.5 text-[11px] font-mono rounded bg-muted text-muted-foreground border border-border"
+                  <div className="flex items-start gap-2 text-xs text-muted-foreground mb-4">
+                    <Briefcase className="w-3.5 h-3.5 text-primary flex-shrink-0 mt-0.5" />
+                    <span>{project.role}</span>
+                  </div>
+
+                  <div className="flex flex-wrap gap-1.5 mb-5 flex-1 content-start">
+                    {project.tech.map((tech) => (
+                      <span
+                        key={tech}
+                        className="px-2 py-0.5 text-[11px] font-mono rounded bg-muted text-muted-foreground border border-border"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+
+                  {project.demo ? (
+                    <a
+                      href={project.demo}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`Live site for ${project.title}`}
+                      className="self-start"
                     >
-                      {t}
-                    </span>
-                  ))}
-                </div>
-
-                {/* Links */}
-                <div className="flex items-center gap-2">
-                  <a
-                    href={project.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`GitHub for ${project.title}`}
-                  >
-                    <Button variant="outline" size="sm" className="rounded-full h-8 px-4 text-xs gap-1.5 border-border hover:border-primary/40">
-                      <Github className="w-3.5 h-3.5" />
-                      Code
+                      <Button size="sm" className="rounded-full h-8 px-4 text-xs gap-1.5 bg-primary/10 text-primary hover:bg-primary/20 border-0">
+                        <ExternalLink className="w-3.5 h-3.5" />
+                        Live Site
+                      </Button>
+                    </a>
+                  ) : (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      disabled
+                      className="self-start rounded-full h-8 px-4 text-xs gap-1.5 border-border"
+                    >
+                      <Lock className="w-3.5 h-3.5" />
+                      Confidential
                     </Button>
-                  </a>
-                  <a
-                    href={project.demo}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`Live demo for ${project.title}`}
-                  >
-                    <Button size="sm" className="rounded-full h-8 px-4 text-xs gap-1.5 bg-primary/10 text-primary hover:bg-primary/20 border-0">
-                      <ExternalLink className="w-3.5 h-3.5" />
-                      Demo
-                    </Button>
-                  </a>
-                </div>
+                  )}
                 </div>
               </motion.article>
             ))}
@@ -314,26 +329,6 @@ export function ProjectsSection() {
             </Button>
           </div>
         )}
-
-        {/* GitHub CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="text-center mt-12"
-        >
-          <a
-            href="https://github.com/malonzo-prince"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Button variant="outline" className="rounded-full px-7 border-border hover:border-primary/40 gap-2">
-              <Github className="w-4 h-4" />
-              View all on GitHub
-            </Button>
-          </a>
-        </motion.div>
       </div>
     </SectionWrapper>
   )

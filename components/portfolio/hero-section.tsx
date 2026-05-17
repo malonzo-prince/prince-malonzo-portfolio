@@ -93,7 +93,7 @@ export function HeroSection() {
         <motion.div variants={itemVariants} className="flex justify-center">
           <div className="relative w-28 h-28 sm:w-36 sm:h-36 rounded-full border-2 border-primary/40 overflow-hidden ring-4 ring-background flex-shrink-0">
             <Image
-              src="/images/profile.jpg"
+              src="/images/profile_101.jpg"
               alt="Prince Barachiel Malonzo"
               fill
               sizes="(max-width: 640px) 112px, 144px"
@@ -130,8 +130,8 @@ export function HeroSection() {
           variants={itemVariants}
           className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed text-balance"
         >
-          Building production-grade fullstack systems and leading teams at{' '}
-          <span className="text-foreground font-semibold">Microgenesis</span>. BSIT student
+          Building production-grade fullstack systems as a Junior Full Stack Developer at{' '}
+          <span className="text-foreground font-semibold">Microgenesis Business Systems</span>. BSIT student
           at National University - Mall of Asia, specializing in Mobile and Web Applications.
         </motion.p>
 
@@ -149,11 +149,13 @@ export function HeroSection() {
           <Button
             size="lg"
             variant="outline"
+            asChild
             className="rounded-full px-7 border-border hover:bg-muted hover:border-primary/40 transition-all hover:-translate-y-0.5"
-            onClick={() => handleNav('#resume')}
           >
-            <Download className="w-4 h-4 mr-2" />
-            Download Resume
+            <a href="/Malonzo_Resume.pdf" download="Malonzo_Resume.pdf">
+              <Download className="w-4 h-4 mr-2" />
+              Download Resume
+            </a>
           </Button>
           <Button
             size="lg"

@@ -38,7 +38,7 @@ export function ResumeSection() {
                   Prince Barachiel Malonzo — CV
                 </h3>
                 <p className="text-sm text-muted-foreground mb-2">
-                  Fullstack Developer & Project Manager · Updated March 2026
+                  Junior Full Stack Developer / Software Engineer I · Updated May 2026
                 </p>
                 <div className="flex flex-wrap gap-3 text-xs text-muted-foreground">
                   <span className="flex items-center gap-1.5 bg-muted px-2.5 py-1 rounded-full">
@@ -59,8 +59,8 @@ export function ResumeSection() {
               {/* Action buttons */}
               <div className="flex flex-col sm:flex-row gap-3">
                 <a
-                  href="/resume.pdf"
-                  download="Prince_Barachiel_Malonzo_CV.pdf"
+                  href="/Malonzo_Resume.pdf"
+                  download="Malonzo_Resume.pdf"
                   aria-label="Download resume PDF"
                 >
                   <Button className="rounded-full px-6 gap-2 bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20 text-primary-foreground">
@@ -69,7 +69,7 @@ export function ResumeSection() {
                   </Button>
                 </a>
                 <a
-                  href="/resume.pdf"
+                  href="/Malonzo_Resume.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Preview resume"
@@ -91,7 +91,7 @@ export function ResumeSection() {
                 },
                 {
                   label: 'Experience',
-                  detail: 'Intern Fullstack Dev & PM at Microgenesis (800 hrs)',
+                  detail: 'Junior Full Stack Developer / Software Engineer I at Microgenesis',
                 },
                 {
                   label: 'Core Skills',

@@ -41,16 +41,16 @@ export function AboutSection() {
           >
             <p className="text-muted-foreground leading-relaxed text-base sm:text-lg">
               I&apos;m <span className="text-foreground font-semibold">Prince Barachiel Malonzo</span>, 
-              a fullstack developer and project manager currently interning at{' '}
-              <span className="text-primary font-semibold">Microgenesis</span>. I design, build, and
+              a Junior Full Stack Developer / Software Engineer I at{' '}
+              <span className="text-primary font-semibold">Microgenesis Business Systems</span>. I design, build, and
               ship end-to-end web systems — from pixel-perfect frontends to robust backend APIs and 
               database architectures.
             </p>
             <p className="text-muted-foreground leading-relaxed">
-              Beyond writing code, I lead a team of{' '}
+              Beyond writing code, I led a team of{' '}
               <span className="text-foreground font-semibold">16 interns</span>, coordinating 
-              deliverables, running Agile ceremonies, and ensuring every project meets quality and 
-              timeline standards. This dual responsibility has sharpened both my technical depth and 
+              deliverables, running Agile ceremonies, and ensuring every project met quality and 
+              timeline standards. That dual responsibility sharpened both my technical depth and 
               leadership instincts.
             </p>
             <p className="text-muted-foreground leading-relaxed">
@@ -68,7 +68,7 @@ export function AboutSection() {
               </span>
               <span className="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground bg-muted px-3 py-1.5 rounded-full">
                 <Calendar className="w-3 h-3 text-primary" />
-                Intern @ Microgenesis · Dec 2025 – May 2026
+                Junior Full Stack Developer @ Microgenesis · May 2026 - Present
               </span>
             </div>
           </motion.div>

@@ -17,11 +17,18 @@ const achievements = [
 
 const timeline = [
   {
-    period: 'Dec 2025 – May 2026',
-    role: 'Intern Fullstack Developer & Project Manager',
-    company: 'Microgenesis',
-    type: 'Internship · 800 hrs',
+    period: 'May 2026 - Present',
+    role: 'Junior Full Stack Developer | Software Engineer I',
+    company: 'Microgenesis Business Systems',
+    type: 'Full-time',
     current: true,
+  },
+  {
+    period: 'Dec 2025 - May 2026',
+    role: 'Intern Fullstack Developer & Project Manager',
+    company: 'Microgenesis Business Systems',
+    type: 'Internship · 800 hrs',
+    current: false,
   },
   {
     period: '2025',
@@ -31,9 +38,9 @@ const timeline = [
     current: false,
   },
   {
-    period: '2022 – Present',
-    role: 'BSIT Student — Mobile & Web Applications',
-    company: 'National University – Mall of Asia',
+    period: '2022 - Present',
+    role: 'BSIT Student - Mobile & Web Applications',
+    company: 'National University - Mall of Asia',
     type: 'Education',
     current: true,
   },
@@ -116,7 +123,7 @@ export function ExperienceSection() {
                   <Building2 className="w-4 h-4 text-primary" />
                 </div>
                 <div>
-                  <p className="font-semibold text-sm text-foreground">Microgenesis</p>
+                  <p className="font-semibold text-sm text-foreground">Microgenesis Business Systems</p>
                   <p className="text-xs text-muted-foreground">IT Solutions Company</p>
                 </div>
                 <a
@@ -128,9 +135,9 @@ export function ExperienceSection() {
                 </a>
               </div>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Microgenesis is an IT solutions company where I lead a team of 16 interns as both a 
-                fullstack developer and project manager — bridging technical execution with strategic 
-                delivery.
+                Microgenesis Business Systems is an IT solutions company where I grew from an intern
+                into a Junior Full Stack Developer / Software Engineer I after leading intern teams
+                and shipping production-ready internal tools.
               </p>
             </motion.div>
           </div>

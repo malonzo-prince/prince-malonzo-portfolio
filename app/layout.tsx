@@ -15,14 +15,14 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Prince Barachiel Malonzo — Fullstack Developer & Project Manager',
+  title: 'Prince Barachiel Malonzo — Junior Full Stack Developer',
   description:
-    'Portfolio of Prince Barachiel Malonzo — Fullstack Developer and Project Manager intern at Microgenesis. BSIT student at National University - Mall of Asia specializing in Mobile and Web Applications.',
+    'Portfolio of Prince Barachiel Malonzo — Junior Full Stack Developer and Software Engineer I at Microgenesis Business Systems. BSIT student at National University - Mall of Asia specializing in Mobile and Web Applications.',
   authors: [{ name: 'Prince Barachiel Malonzo' }],
-  keywords: ['fullstack developer', 'project manager', 'Next.js', 'React', 'TypeScript', 'portfolio'],
+  keywords: ['full stack developer', 'software engineer', 'Next.js', 'React', 'TypeScript', 'portfolio'],
   openGraph: {
-    title: 'Prince Barachiel Malonzo — Fullstack Developer & Project Manager',
-    description: 'Portfolio of Prince Barachiel Malonzo — Fullstack Developer and Project Manager at Microgenesis.',
+    title: 'Prince Barachiel Malonzo — Junior Full Stack Developer',
+    description: 'Portfolio of Prince Barachiel Malonzo — Junior Full Stack Developer and Software Engineer I at Microgenesis Business Systems.',
     type: 'website',
   },
 }
