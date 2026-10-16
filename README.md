@@ -54,6 +54,20 @@ Each run reveals the journey one layer at a time and shows the corresponding HTT
 
 The lab is explicitly labelled as a browser simulation. It makes no network requests, writes no records, and needs no credentials. Its sample endpoint and responses are illustrative, not production API routes or performance measurements. Edit `src/components/request-lab.tsx` to change the scenarios.
 
+## Meeting timezone planner
+
+Open **Plan a call** in the footer or the link beside the contact details. The section URL is `/#meeting-planner`. Meeting requests are welcome **24/7**, as specified by Prince. Visitors can detect or select their timezone, choose their local date, preferred hours, and a 30- or 60-minute duration, then compare each proposed time with Manila, including the date.
+
+The planner uses `Intl.DateTimeFormat` and actual UTC instants so daylight-saving gaps, repeated hours, fractional UTC offsets, and cross-date conversions remain accurate. Past starts are excluded. **Request this time** adds the proposal to the existing contact draft without sending it; changing the selection replaces the previous unedited proposal. Copy and tentative `.ics` calendar downloads are also available. Calendar reminders do not send invitations or confirm a booking. Meetings are confirmed by email. No calendar account, API key, or visitor tracking is required.
+
+Edit `src/components/meeting-planner.tsx` for the UI and timezone choices, and `src/lib/meetings.ts` for conversion, slot, and calendar logic.
+
+## Client stories and feedback
+
+The section URL is `/#client-stories`. **Share feedback** opens a form for the project, role/company, quote, and optional publication permission. Permission is unchecked by default. **Prepare feedback** adds a draft to the contact form; the client supplies their name and email and chooses when to send it through the existing EmailJS integration. Nothing is auto-published, and existing contact text is preserved. Oversized additions are rejected without truncating the draft.
+
+Approved stories live in **`src/content/client-stories.ts`**. There are no fabricated starter quotes. Until real entries are supplied, the section shows an invitation to share feedback. To publish a reviewed story, add an entry with `id`, `quote`, `clientName`, `projectName`, and a factual `contribution`, then set both `approvedForPublication` and `published` to `true`. Optional fields are `clientRole`, `company`, and a public HTTP(S) `projectUrl`. Only complete, approved, published entries appear. Each card connects the client's quote to the project and Prince's contribution.
+
 ## GitHub contribution calendar
 
 The calendar reads **`malonzo-prince`**'s actual publicly visible GitHub contribution activity. It is fetched on the server and cached for one hour. It is not randomly generated and does not require the visitor to sign in.

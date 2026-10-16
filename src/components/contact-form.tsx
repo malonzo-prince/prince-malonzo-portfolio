@@ -5,12 +5,14 @@ import { ArrowUpRight, Check, LoaderCircle } from "lucide-react";
 import { profile } from "@/content/portfolio";
 import { Button } from "@/components/ui/button";
 import { hasControlCharacters } from "@/lib/text";
+import { addContactDraft } from "@/lib/contact-drafts";
 
 type FieldErrors = Partial<Record<"name" | "email" | "message", string>>;
 
 export function ContactForm() {
   const formRef = useRef<HTMLFormElement>(null);
   const messageRef = useRef<HTMLTextAreaElement>(null);
+  const additions = useRef<Partial<Record<"meeting" | "feedback", string>>>({});
   const [errors, setErrors] = useState<FieldErrors>({});
   const [status, setStatus] = useState<{
     kind: "idle" | "sending" | "success" | "error";
@@ -25,12 +27,42 @@ export function ContactForm() {
         !messageRef.current
       )
         return;
-      messageRef.current.value = event.detail.message.slice(0, 5000);
+      const source =
+        event.detail.source === "meeting"
+          ? "meeting"
+          : event.detail.source === "feedback"
+            ? "feedback"
+            : undefined;
+      if (source === "meeting" || source === "feedback") {
+        const next = addContactDraft(
+          messageRef.current.value,
+          event.detail.message,
+          additions.current[source],
+        );
+        if (next === null) {
+          setStatus({
+            kind: "error",
+            message:
+              "Your current draft is too long to add this request. Shorten your message and try again.",
+          });
+          return;
+        }
+        messageRef.current.value = next;
+        additions.current[source] = event.detail.message.trim();
+      } else {
+        messageRef.current.value = event.detail.message.slice(0, 5000);
+        additions.current = {};
+      }
+      event.detail.accepted = true;
       setErrors({});
       setStatus({
         kind: "idle",
         message:
-          "Your project blueprint is ready below. Add a little about your idea, then send it over.",
+          source === "meeting"
+            ? "Your meeting request is added below. Add your details, then send it for confirmation."
+            : source === "feedback"
+              ? "Your feedback is ready below. Add your name and email, then send it for review."
+              : "Your project blueprint is ready below. Add a little about your idea, then send it over.",
       });
     }
     window.addEventListener("portfolio:brief", fillBrief);
