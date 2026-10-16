@@ -46,6 +46,14 @@ Visitors can name a custom project and describe its design, workflows, and other
 
 This feature is deterministic and runs locally in the browser. It does not call an AI service, collect visitor choices, or invent prices, timelines, completed projects, or credentials. Toolkit suggestions are a conversation starter, not a fixed scope or quote. Edit `src/lib/blueprint.ts` to update its options.
 
+## Request Lab
+
+Open **Try Request Lab** from the hero or **Request lab** from the footer. The shareable section URL is `/#request-lab`. Visitors can trace a sample project request through the browser, API validation, data layer, and response, then try a missing field or an offline data service.
+
+Each run reveals the journey one layer at a time and shows the corresponding HTTP response and JSON. Invalid input skips storage; an unavailable data service returns an error instead of a false success. Changing scenarios or resetting cancels the current run. Reduced-motion users see the finished trace immediately. Controls and outcomes support keyboard and screen-reader use.
+
+The lab is explicitly labelled as a browser simulation. It makes no network requests, writes no records, and needs no credentials. Its sample endpoint and responses are illustrative, not production API routes or performance measurements. Edit `src/components/request-lab.tsx` to change the scenarios.
+
 ## GitHub contribution calendar
 
 The calendar reads **`malonzo-prince`**'s actual publicly visible GitHub contribution activity. It is fetched on the server and cached for one hour. It is not randomly generated and does not require the visitor to sign in.
