@@ -100,7 +100,7 @@ export function ContactForm() {
     <form
       ref={formRef}
       className="contact-form"
-      action={`https://formsubmit.co/${profile.email}`}
+      action="/api/contact"
       method="post"
       onSubmit={submit}
       noValidate
@@ -184,13 +184,11 @@ export function ContactForm() {
         <label htmlFor="contact-website">Leave this field empty</label>
         <input id="contact-website" name="website" type="text" tabIndex={-1} autoComplete="off" />
       </div>
-      <input type="hidden" name="_subject" value="New portfolio enquiry" />
-      <input type="hidden" name="_template" value="table" />
       <div className="form-bottom">
         <p>
-          Sent securely through{" "}
-          <a href="https://formsubmit.co" target="_blank" rel="noopener noreferrer">
-            FormSubmit
+          Sent through{" "}
+          <a href="https://www.emailjs.com" target="_blank" rel="noopener noreferrer">
+            EmailJS
           </a>{" "}
           to my inbox.
         </p>

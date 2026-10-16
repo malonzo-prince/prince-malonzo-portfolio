@@ -256,12 +256,20 @@ test("contact submission shows provider acceptance and preserves messages on fai
   page,
 }) => {
   await page.goto("/");
+  await expect(page.getByRole("form", { name: "Contact Prince" })).toHaveAttribute(
+    "action",
+    "/api/contact",
+  );
+  await expect(page.getByRole("link", { name: "EmailJS", exact: true })).toHaveAttribute(
+    "href",
+    "https://www.emailjs.com",
+  );
   await page.route("**/api/contact", (route) =>
     route.fulfill({
-      status: 503,
+      status: 502,
       contentType: "application/json",
       body: JSON.stringify({
-        message: "The contact form is awaiting inbox activation. Please email me directly for now.",
+        message: "Your message could not be sent. Please try again or email me directly.",
       }),
     }),
   );
@@ -270,9 +278,7 @@ test("contact submission shows provider acceptance and preserves messages on fai
   await page.getByLabel("Your message").fill("I would like to discuss a web application project.");
   await page.getByRole("button", { name: "Send message", exact: true }).click();
   await expect(
-    page.getByText(
-      "The contact form is awaiting inbox activation. Please email me directly for now.",
-    ),
+    page.getByText("Your message could not be sent. Please try again or email me directly."),
   ).toBeVisible();
   await expect(page.getByLabel("Your message")).not.toHaveValue("");
   await page.unroute("**/api/contact");

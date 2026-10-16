@@ -60,19 +60,22 @@ The calendar scrolls within its own region on small screens. A single day partic
 
 **Recipient:** `malonzo.princebarachiel31@gmail.com`.
 
-The contact form sends messages directly through **FormSubmit**, without API keys or a sending domain. It uses `POST /api/contact` and keeps visitors on the portfolio. A separate Gmail compose link is available as a fallback.
+The contact form sends through **EmailJS** using the server-side `POST /api/contact` endpoint. Visitors stay on the portfolio, and a separate Gmail compose link is available as a fallback. EmailJS credentials never enter the browser bundle.
+
+Use the [EmailJS contact template and setup guide](email-templates/README.md) to configure the recipient, subject, and Reply-To address. The template receives only `name`, `email`, and `message`; project-builder briefs are included in `message`.
 
 To activate delivery:
 
-1. Submit the form once, then click **Activate Form** in the email FormSubmit sends to the recipient. This setup request has been sent, and Prince confirmed activation during development.
-2. Keep `CONTACT_TO_EMAIL=malonzo.princebarachiel31@gmail.com`, or change it deliberately. A different recipient needs its own activation.
-3. Set `NEXT_PUBLIC_SITE_URL` to the production URL. The relay includes this as the form's source URL.
-4. Optionally set `FORMSUBMIT_FORM_ID` to the private identifier FormSubmit supplies after activation. No identifier is required for the default email endpoint.
-5. Test a submission on the deployed hostname and check the recipient inbox and spam folder.
+1. Connect an email service in EmailJS and save the supplied HTML as an email template. Keep **To Email** fixed at `malonzo.princebarachiel31@gmail.com` and **Reply-To** set to `{{email}}` in the dashboard.
+2. In **EmailJS Account > Security**, enable API requests from non-browser applications. The portfolio sends from a Next.js server function. See the [official Node.js setup](https://github.com/emailjs-com/emailjs-nodejs).
+3. Set `EMAILJS_SERVICE_ID`, `EMAILJS_TEMPLATE_ID`, and `EMAILJS_PUBLIC_KEY` in the root `.env` or `.env.local`. Set `EMAILJS_PRIVATE_KEY` when private-key authorization is enabled. Keep these server-only names without a `NEXT_PUBLIC_` prefix.
+4. Set `NEXT_PUBLIC_SITE_URL` to the production URL and leave `CONTACT_FORM_ENABLED=true`, or omit the flag. Missing required EmailJS configuration disables delivery with an honest unavailable response.
+5. In **Vercel > Project Settings > Environment Variables**, configure the same EmailJS values for Production and any Preview deployments that should send email. Local `.env` changes are not uploaded through Git. Redeploy after changing Vercel environment variables; existing deployments keep their previous configuration. See [Vercel's environment-variable guide](https://vercel.com/docs/environment-variables).
+6. Test a submission on the deployed hostname, check the recipient inbox and spam folder, and verify that Reply addresses the visitor. Never commit `.env` files or private keys.
 
-`POST /api/contact` enforces same-origin submissions, bounded JSON bodies, Zod validation, a honeypot, and a best-effort per-instance limit of five valid attempts per client per ten minutes. This in-memory limit is not a distributed quota; FormSubmit also applies its own abuse filtering. No CAPTCHA-disabling flag is sent. Only a fixed recipient and whitelisted name, reply email, and message fields reach the relay. Activation requirements, network errors, and rejected submissions are reported honestly, preserving the visitor's message on failure.
+`POST /api/contact` enforces same-origin submissions, bounded JSON bodies, Zod validation, a honeypot, and a best-effort per-instance limit of five valid attempts per client per ten minutes. This in-memory limit is not a distributed quota. The server selects the EmailJS service and template; visitors cannot set the recipient or inject template configuration. The provider request has a 12-second timeout. Network errors and rejected submissions are reported without exposing credentials, preserving the visitor's message on failure.
 
-The portfolio does not store messages in a database. FormSubmit processes submissions and, according to its documentation, retains an archive for 30 days. The form links to the provider. See [FormSubmit's AJAX guide](https://formsubmit.co/ajax-documentation), [activation help](https://formsubmit.co/help), and [documentation](https://formsubmit.co/documentation). Set `CONTACT_FORM_ENABLED=false` to pause the endpoint.
+The portfolio does not store messages in a database. EmailJS and the connected email service process the submission. The form links to EmailJS. See the [EmailJS send API](https://www.emailjs.com/docs/rest-api/send/). Set `CONTACT_FORM_ENABLED=false` to pause the endpoint.
 
 ## Vercel deployment
 
@@ -82,7 +85,7 @@ The portfolio does not store messages in a database. FormSubmit processes submis
 4. Add the environment variables above. The existing URL in `.env.example` comes from the CV; update it if deploying to a different URL.
 5. Deploy, then check theme switching, resume download, GitHub activity, project links, contact delivery, and social previews on the production hostname.
 
-No paid plan, domain purchase, or live publication is performed by the source code. A custom domain and email-service API keys are optional with the selected FormSubmit setup.
+No paid plan or domain purchase is performed by the source code. A custom domain is optional. EmailJS account credentials are required for contact delivery.
 
 ## Structure
 

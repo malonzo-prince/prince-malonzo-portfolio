@@ -1,22 +1,20 @@
-import { profile } from "@/content/portfolio";
 import { handleContact } from "@/lib/contact";
 import { createContactGuard } from "@/lib/contact-guard";
-import { submitToFormRelay } from "@/lib/form-relay";
+import { getEmailJsConfig, submitToEmailJs } from "@/lib/emailjs";
 import { getSiteUrl } from "@/lib/site";
 
 export const runtime = "nodejs";
 const rateLimit = createContactGuard();
 
 export async function POST(request: Request) {
+  const emailJs = getEmailJsConfig();
   return handleContact(request, {
-    ready: process.env.CONTACT_FORM_ENABLED !== "false",
+    ready: process.env.CONTACT_FORM_ENABLED !== "false" && emailJs !== null,
     siteUrl: getSiteUrl(),
     rateLimit,
-    sendEmail: (message) =>
-      submitToFormRelay(message, {
-        recipient: process.env.CONTACT_TO_EMAIL || profile.email,
-        siteUrl: getSiteUrl(),
-        formId: process.env.FORMSUBMIT_FORM_ID,
-      }),
+    sendEmail: async (message) => {
+      if (!emailJs) return { accepted: false };
+      return submitToEmailJs(message, emailJs);
+    },
   });
 }

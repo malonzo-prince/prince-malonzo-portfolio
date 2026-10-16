@@ -1,4 +1,4 @@
-/** Best-effort protection per server instance; FormSubmit also filters abuse. */
+/** Best-effort protection per server instance; this is not a distributed quota. */
 export function createContactGuard({ limit = 5, windowMs = 600_000, now = Date.now } = {}) {
   const attempts = new Map<string, { count: number; expires: number }>();
   return (key: string) => {

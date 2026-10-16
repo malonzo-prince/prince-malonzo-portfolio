@@ -1,6 +1,5 @@
 import { z } from "zod";
 import { hasControlCharacters } from "./text";
-import type { RelayResult } from "./form-relay";
 
 export const contactSchema = z.object({
   name: z
@@ -19,12 +18,12 @@ export const contactSchema = z.object({
   submissionId: z.uuid(),
 });
 
-type Message = { name: string; email: string; message: string; submissionId: string };
+export type ContactMessage = { name: string; email: string; message: string; submissionId: string };
 export type ContactDependencies = {
   ready?: boolean;
   siteUrl: string;
   rateLimit?: (key: string) => number;
-  sendEmail: (message: Message) => Promise<RelayResult>;
+  sendEmail: (message: ContactMessage) => Promise<{ accepted: boolean }>;
 };
 
 const response = (status: number, message: string, errors?: Record<string, string[] | undefined>) =>
@@ -113,11 +112,6 @@ export async function handleContact(request: Request, dependencies: ContactDepen
   }
   try {
     const result = await dependencies.sendEmail(parsed.data);
-    if (result.requiresActivation)
-      return response(
-        503,
-        "The contact form is awaiting inbox activation. Please email me directly for now.",
-      );
     if (!result.accepted)
       return response(
         502,
