@@ -1,12 +1,5 @@
 import Image from "next/image";
-import {
-  ArrowDown,
-  ArrowDownRight,
-  ArrowUpRight,
-  Download,
-  FlaskConical,
-  MapPin,
-} from "lucide-react";
+import { ArrowDown, ArrowDownRight, ArrowUpRight, Download, MapPin } from "lucide-react";
 import { Github, Linkedin } from "@/components/brand-icons";
 import { profile } from "@/content/portfolio";
 import { Button } from "@/components/ui/button";
@@ -126,11 +119,6 @@ export function Hero() {
               <ArrowDown size={14} />
             </span>
             There’s more below
-          </a>
-          <a href="#request-lab" className="hero-lab-link">
-            <FlaskConical size={14} aria-hidden="true" />
-            Try Request Lab
-            <ArrowUpRight size={13} aria-hidden="true" />
           </a>
         </div>
       </div>

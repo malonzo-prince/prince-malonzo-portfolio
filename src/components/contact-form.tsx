@@ -12,7 +12,7 @@ type FieldErrors = Partial<Record<"name" | "email" | "message", string>>;
 export function ContactForm() {
   const formRef = useRef<HTMLFormElement>(null);
   const messageRef = useRef<HTMLTextAreaElement>(null);
-  const additions = useRef<Partial<Record<"meeting" | "feedback", string>>>({});
+  const feedbackAddition = useRef<string | undefined>(undefined);
   const [errors, setErrors] = useState<FieldErrors>({});
   const [status, setStatus] = useState<{
     kind: "idle" | "sending" | "success" | "error";
@@ -27,17 +27,12 @@ export function ContactForm() {
         !messageRef.current
       )
         return;
-      const source =
-        event.detail.source === "meeting"
-          ? "meeting"
-          : event.detail.source === "feedback"
-            ? "feedback"
-            : undefined;
-      if (source === "meeting" || source === "feedback") {
+      const isFeedback = event.detail.source === "feedback";
+      if (isFeedback) {
         const next = addContactDraft(
           messageRef.current.value,
           event.detail.message,
-          additions.current[source],
+          feedbackAddition.current,
         );
         if (next === null) {
           setStatus({
@@ -48,21 +43,18 @@ export function ContactForm() {
           return;
         }
         messageRef.current.value = next;
-        additions.current[source] = event.detail.message.trim();
+        feedbackAddition.current = event.detail.message.trim();
       } else {
         messageRef.current.value = event.detail.message.slice(0, 5000);
-        additions.current = {};
+        feedbackAddition.current = undefined;
       }
       event.detail.accepted = true;
       setErrors({});
       setStatus({
         kind: "idle",
-        message:
-          source === "meeting"
-            ? "Your meeting request is added below. Add your details, then send it for confirmation."
-            : source === "feedback"
-              ? "Your feedback is ready below. Add your name and email, then send it for review."
-              : "Your project blueprint is ready below. Add a little about your idea, then send it over.",
+        message: isFeedback
+          ? "Your feedback is ready below. Add your name and email, then send it for review."
+          : "Your project blueprint is ready below. Add a little about your idea, then send it over.",
       });
     }
     window.addEventListener("portfolio:brief", fillBrief);

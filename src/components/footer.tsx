@@ -14,10 +14,8 @@ export function Footer() {
           <nav aria-label="Footer navigation">
             <a href="#about">About</a>
             <a href="#projects">Work</a>
-            <a href="#request-lab">Request lab</a>
             <a href="#experience">Experience</a>
             <a href="#client-stories">Client stories</a>
-            <a href="#meeting-planner">Plan a call</a>
             <a href="/#project-builder">Project builder</a>
             <a href={profile.resume} download>
               Resume

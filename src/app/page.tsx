@@ -4,8 +4,6 @@ import { About } from "@/components/about";
 import { Projects } from "@/components/projects";
 import { GitHubActivity } from "@/components/github-activity";
 import { Skills } from "@/components/skills";
-import { RequestLab } from "@/components/request-lab";
-import { MeetingPlanner } from "@/components/meeting-planner";
 import { ClientStories } from "@/components/client-stories";
 import { Experience } from "@/components/experience";
 import { Credentials } from "@/components/credentials";
@@ -44,12 +42,10 @@ export default async function Home() {
         <Projects />
         <GitHubActivity calendar={calendar} />
         <Skills />
-        <RequestLab />
         <Experience />
         <Credentials />
         <ClientStories />
         <ProjectBlueprint />
-        <MeetingPlanner />
         <Contact />
       </main>
       <Footer />

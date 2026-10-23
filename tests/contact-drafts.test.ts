@@ -3,14 +3,14 @@ import { test } from "node:test";
 import { addContactDraft, feedbackBrief } from "../src/lib/contact-drafts";
 import { publishedClientStories, type ClientStory } from "../src/content/client-stories";
 
-test("meeting and feedback additions preserve a draft, replace earlier selections, and never truncate it", () => {
+test("feedback additions preserve a draft, replace earlier feedback, and never truncate it", () => {
   const initial = "I need help with my project.\nKeep this detail.";
-  const added = addContactDraft(initial, "Meeting request\nMonday");
-  assert.equal(added, `${initial}\n\nMeeting request\nMonday`);
-  assert.equal(addContactDraft(added!, "Meeting request\nMonday"), added);
+  const added = addContactDraft(initial, "Client feedback\nFirst draft");
+  assert.equal(added, `${initial}\n\nClient feedback\nFirst draft`);
+  assert.equal(addContactDraft(added!, "Client feedback\nFirst draft"), added);
   assert.equal(
-    addContactDraft(added!, "Meeting request\nTuesday", "Meeting request\nMonday"),
-    `${initial}\n\nMeeting request\nTuesday`,
+    addContactDraft(added!, "Client feedback\nRevised draft", "Client feedback\nFirst draft"),
+    `${initial}\n\nClient feedback\nRevised draft`,
   );
   assert.equal(addContactDraft("x".repeat(4990), "An addition that exceeds the limit"), null);
 });

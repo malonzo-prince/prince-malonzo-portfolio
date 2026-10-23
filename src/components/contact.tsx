@@ -62,10 +62,6 @@ export function Contact() {
                 <ArrowUpRight size={15} />
               </a>
             </div>
-            <a className="contact-meeting-link text-link" href="/#meeting-planner">
-              Compare time zones and plan a call
-              <ArrowUpRight size={16} />
-            </a>
           </Reveal>
           <Reveal>
             <ContactForm />

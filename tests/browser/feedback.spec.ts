@@ -1,62 +1,5 @@
-import { readFile } from "node:fs/promises";
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
-
-test.use({ timezoneId: "America/New_York" });
-
-async function chooseMeeting(page: import("@playwright/test").Page) {
-  await page.clock.setFixedTime(new Date("2026-10-16T08:00:00Z"));
-  await page.goto("/#meeting-planner");
-  const planner = page.locator("#meeting-planner");
-  await expect(planner.getByLabel("Your timezone")).toHaveValue("America/New_York");
-  await planner.getByLabel("Your meeting date").fill("2026-10-17");
-  await planner.getByLabel("Your preferred hours").selectOption("daytime");
-  return planner;
-}
-
-test("meeting requests convert both dates, preserve the contact draft, and replace earlier choices", async ({
-  page,
-}) => {
-  const posts: string[] = [];
-  page.on("request", (request) => {
-    if (request.method() === "POST") posts.push(request.url());
-  });
-  const planner = await chooseMeeting(page);
-  await expect(planner.getByText("Meeting requests welcome 24/7")).toBeVisible();
-  await expect(planner.locator(".meeting-selection")).toContainText("9:00 AM GMT-4");
-  await expect(planner.locator(".meeting-selection")).toContainText("9:00 PM GMT+8");
-  await page.getByLabel("Your message").fill("Please keep this project context in my message.");
-  await planner.getByRole("link", { name: "Request this time" }).click();
-  await expect(page).toHaveURL(/#contact$/);
-  await expect(page.getByLabel("Your message")).toHaveValue(/Please keep this project context/);
-  await expect(page.getByLabel("Your message")).toHaveValue(/Meeting request/);
-  await expect(page.getByLabel("Your message")).toHaveValue(/America\/New_York/);
-  await planner.locator(".meeting-slot").nth(1).click();
-  await planner.getByRole("link", { name: "Request this time" }).click();
-  const draft = await page.getByLabel("Your message").inputValue();
-  expect(draft.match(/Meeting request/g)).toHaveLength(1);
-  expect(draft).toContain("Please keep this project context");
-  await planner.getByLabel("Your preferred hours").selectOption("evening");
-  await expect(planner.locator(".meeting-selection")).toContainText("Oct 18, 2026");
-  expect(posts).toEqual([]);
-});
-
-test("calendar downloads are tentative, and old dates cannot prepare meeting requests", async ({
-  page,
-}) => {
-  const planner = await chooseMeeting(page);
-  const pending = page.waitForEvent("download");
-  await planner.getByRole("button", { name: "Download tentative calendar reminder" }).click();
-  const download = await pending;
-  expect(download.suggestedFilename()).toBe("proposed-meeting-with-prince.ics");
-  const calendar = await readFile((await download.path())!, "utf8");
-  expect(calendar).toContain("DTSTART:20261017T130000Z");
-  expect(calendar).toContain("STATUS:TENTATIVE");
-  expect(calendar).not.toContain("ATTENDEE");
-  await planner.getByLabel("Your meeting date").fill("2026-10-15");
-  await expect(planner.getByRole("button", { name: "Request this time" })).toBeDisabled();
-  await expect(planner.locator(".meeting-empty")).toContainText("No future times");
-});
 
 test("feedback needs a deliberate send, remains private by default, and never auto-publishes", async ({
   page,
@@ -118,10 +61,10 @@ test("feedback survives a full contact draft and explicit publication permission
   await expect(page.getByLabel("Your message")).toHaveValue(/A shorter draft that must stay/);
 });
 
-test("planner, stories, and feedback dialog fit mobile screens and pass accessibility checks", async ({
+test("stories and feedback dialog fit mobile screens and pass accessibility checks", async ({
   page,
 }) => {
-  await chooseMeeting(page);
+  await page.goto("/#client-stories");
   for (const width of [320, 390, 768, 1024, 1440]) {
     await page.setViewportSize({ width, height: 1000 });
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
@@ -134,7 +77,6 @@ test("planner, stories, and feedback dialog fit mobile screens and pass accessib
       document.documentElement.classList.add(value);
     }, theme);
     const result = await new AxeBuilder({ page })
-      .include("#meeting-planner")
       .include("#client-stories")
       .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
       .analyze();

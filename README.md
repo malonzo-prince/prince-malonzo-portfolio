@@ -47,22 +47,6 @@ Visitors can name a custom project and describe its design, workflows, and other
 
 This feature is deterministic and runs locally in the browser. It does not call an AI service, collect visitor choices, or invent prices, timelines, completed projects, or credentials. Toolkit suggestions are a conversation starter, not a fixed scope or quote. Edit `src/lib/blueprint.ts` to update its options.
 
-## Request Lab
-
-Open **Try Request Lab** from the hero or **Request lab** from the footer. The shareable section URL is `/#request-lab`. Visitors can trace a sample project request through the browser, API validation, data layer, and response, then try a missing field or an offline data service.
-
-Each run reveals the journey one layer at a time and shows the corresponding HTTP response and JSON. Invalid input skips storage; an unavailable data service returns an error instead of a false success. Changing scenarios or resetting cancels the current run. Reduced-motion users see the finished trace immediately. Controls and outcomes support keyboard and screen-reader use.
-
-The lab is explicitly labelled as a browser simulation. It makes no network requests, writes no records, and needs no credentials. Its sample endpoint and responses are illustrative, not production API routes or performance measurements. Edit `src/components/request-lab.tsx` to change the scenarios.
-
-## Meeting timezone planner
-
-Open **Plan a call** in the footer or the link beside the contact details. The section URL is `/#meeting-planner`. Meeting requests are welcome **24/7**, as specified by Prince. Visitors can detect or select their timezone, choose their local date, preferred hours, and a 30- or 60-minute duration, then compare each proposed time with Manila, including the date.
-
-The planner uses `Intl.DateTimeFormat` and actual UTC instants so daylight-saving gaps, repeated hours, fractional UTC offsets, and cross-date conversions remain accurate. Past starts are excluded. **Request this time** adds the proposal to the existing contact draft without sending it; changing the selection replaces the previous unedited proposal. Copy and tentative `.ics` calendar downloads are also available. Calendar reminders do not send invitations or confirm a booking. Meetings are confirmed by email. No calendar account, API key, or visitor tracking is required.
-
-Edit `src/components/meeting-planner.tsx` for the UI and timezone choices, and `src/lib/meetings.ts` for conversion, slot, and calendar logic.
-
 ## Client stories and feedback
 
 The section URL is `/#client-stories`. **Share feedback** opens a form for the project, role/company, quote, and optional publication permission. Permission is unchecked by default. **Prepare feedback** adds a draft to the contact form; the client supplies their name and email and chooses when to send it through the existing EmailJS integration. Nothing is auto-published, and existing contact text is preserved. Oversized additions are rejected without truncating the draft.
