@@ -2516,6 +2516,14 @@ button.contribution-day:focus-visible {
   height: 300px;
   overflow: hidden;
 }
+.project-dialog-visual.project-dialog-screenshot {
+  height: auto;
+}
+.project-dialog-screenshot img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
 .project-dialog-visual .project-visual {
   max-width: none;
 }

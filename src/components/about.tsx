@@ -60,8 +60,9 @@ export function About() {
             </p>
             <p>
               I graduated from National University–Mall of Asia with a specialization in Mobile and
-              Web Applications. Along the way, I’ve worked on internal and client projects,
-              supported deployment and QA, and coordinated a team of 17 fellow interns.
+              Web Applications. Along the way, I’ve worked on internal and client projects, used
+              AI-powered development tools, supported API integrations, deployment, and QA, and
+              coordinated a team of 17 interns.
             </p>
             <p>
               What I enjoy most is connecting the pieces: a useful idea, a considered interface, and

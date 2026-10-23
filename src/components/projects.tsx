@@ -22,7 +22,7 @@ const filters = ["All work", "Web", "Mobile"] as const;
 export function Projects() {
   const [filter, setFilter] = useState<(typeof filters)[number]>("All work");
   const visible = projects.filter(
-    (project) => filter === "All work" || project.category === filter,
+    (project) => filter === "All work" || project.platforms.includes(filter),
   );
   const hasConcepts = projects.some((project) => project.status === "concept");
   return (
@@ -62,7 +62,7 @@ export function Projects() {
           {hasConcepts && (
             <span className="concept-note">
               <span />
-              Sample concepts · Real case studies coming next
+              Sample concepts are labeled
             </span>
           )}
         </div>
@@ -81,8 +81,8 @@ export function Projects() {
                         <Image
                           src={project.image}
                           alt={`${project.name} screenshot`}
-                          width={1200}
-                          height={800}
+                          width={1440}
+                          height={900}
                           sizes="(max-width: 767px) 100vw, 50vw"
                           className="published-project-image"
                         />
@@ -90,7 +90,7 @@ export function Projects() {
                         <ProjectVisual kind={project.kind} />
                       )}
                       <span className="project-status">
-                        {project.status === "concept" ? "CONCEPT PREVIEW" : "CASE STUDY"}
+                        {project.status === "concept" ? "CONCEPT PREVIEW" : "LIVE PROJECT"}
                       </span>
                       <span className="project-open">
                         <ArrowUpRight size={21} />
@@ -100,7 +100,11 @@ export function Projects() {
                       <div className="project-category mono">
                         <span>
                           {project.number} /{" "}
-                          {project.category === "Mobile" ? "MOBILE EXPERIENCE" : "WEB APPLICATION"}
+                          {project.platforms.length > 1
+                            ? "WEB & MOBILE APPLICATION"
+                            : project.platforms[0] === "Mobile"
+                              ? "MOBILE EXPERIENCE"
+                              : "WEB APPLICATION"}
                         </span>
                         <ArrowUpRight size={18} />
                       </div>
@@ -115,13 +119,15 @@ export function Projects() {
                   </button>
                 </DialogTrigger>
                 <DialogContent className="project-dialog">
-                  <div className="project-dialog-visual">
+                  <div
+                    className={`project-dialog-visual${project.status === "published" && project.image ? " project-dialog-screenshot" : ""}`}
+                  >
                     {project.status === "published" && project.image ? (
                       <Image
                         src={project.image}
                         alt={`${project.name} screenshot`}
-                        width={1200}
-                        height={800}
+                        width={1440}
+                        height={900}
                         sizes="(max-width: 767px) 100vw, 800px"
                       />
                     ) : (
@@ -130,8 +136,8 @@ export function Projects() {
                   </div>
                   <div className="project-dialog-copy">
                     <p className="eyebrow">
-                      {project.status === "concept" ? "Sample concept" : "Project case study"} /{" "}
-                      {project.category}
+                      {project.status === "concept" ? "Sample concept" : "Live project"} /{" "}
+                      {project.platforms.join(" & ")}
                     </p>
                     <DialogTitle className="project-dialog-title">{project.name}</DialogTitle>
                     <DialogDescription className="project-dialog-description">

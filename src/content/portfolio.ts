@@ -31,9 +31,11 @@ export const experience = [
     dateTime: "2026-05",
     summary: "From internship to full-time development.",
     details: [
-      "Promoted to a full-time Junior Full Stack Developer after completing an 800-hour internship.",
-      "Developed and maintained frontend and backend features for internal and client projects.",
-      "Collaborated with cross-functional teams on testing, deployment, troubleshooting, and technical documentation.",
+      "Joined as a full-time Junior Full Stack Developer after completing an 800-hour internship.",
+      "Developed, maintained, and enhanced frontend and backend features for internal systems and client projects.",
+      "Used AI-powered development tools for coding, debugging, troubleshooting, and code optimization.",
+      "Collaborated with cross-functional teams on API integration, database management, system testing, and deployment.",
+      "Conducted quality assurance, tracked bugs, and enhanced application performance and user experience.",
     ],
   },
   {
@@ -55,13 +57,13 @@ export const experience = [
     company: "Microgenesis Business Systems",
     role: "Full Stack Developer / Project Manager / Quality Assurance",
     type: "Internship",
-    period: "December 2025 — April 2026",
+    period: "December 2025 — May 2026",
     dateTime: "2025-12",
     summary: "An 800-hour internship across development, coordination, and QA.",
     details: [
-      "Completed an 800-hour internship in full-stack development and project management.",
-      "Led and coordinated a team of 17 fellow interns, managing tasks and project deliverables.",
-      "Developed, tested, and maintained frontend and backend features.",
+      "Completed an 800-hour internship in full-stack development, project management, and quality assurance.",
+      "Led and coordinated a team of 17 interns, managing tasks, project timelines, and deliverables.",
+      "Developed and tested web applications, conducted quality assurance, and tracked software issues.",
     ],
   },
 ] as const;
@@ -176,10 +178,10 @@ export const skillGroups: {
     skills: ["ChatGPT", "OpenAI Codex", "Claude Code", "Google Gemini", "OpenAI API", "Gemini API"],
   },
   {
-    name: "Design & integrations",
+    name: "Design & collaboration",
     category: "Workflow",
     icon: "pen",
-    skills: ["Notion", "Jira", "Figma", "Canva", "Google Maps API", "Mapbox API"],
+    skills: ["Notion", "Jira", "Figma", "Canva"],
   },
 ];
 
@@ -187,8 +189,8 @@ export type Project = {
   id: string;
   number: string;
   name: string;
-  category: "Web" | "Mobile";
-  kind: "commerce" | "mobile" | "workspace";
+  platforms: ("Web" | "Mobile")[];
+  kind: "clinic" | "commerce" | "mobile" | "workspace";
   description: string;
   stack: string[];
   status: "concept" | "published";
@@ -198,25 +200,27 @@ export type Project = {
   image?: string;
 };
 
-// Temporary concepts explicitly requested by Prince. These are never presented
-// as completed projects, client work, or professional accomplishments.
+// Published work appears alongside clearly labeled, temporary concepts.
+// Concepts are never presented as completed projects or client work.
 export const projects: Project[] = [
   {
-    id: "commerce-concept",
+    id: "immacare-clinic",
     number: "01",
-    name: "Commerce, simplified.",
-    category: "Web",
-    kind: "commerce",
+    name: "ImmaCare — Clinic Management System",
+    platforms: ["Web", "Mobile"],
+    kind: "clinic",
     description:
-      "A sample dashboard concept for keeping products, orders, and everyday operations in one place.",
-    stack: ["Next.js", "TypeScript", "PostgreSQL"],
-    status: "concept",
+      "A web and mobile clinic management system connecting appointment booking, doctor schedules, patient records, and day-to-day clinic operations.",
+    stack: ["Next.js", "Tailwind CSS", "TypeScript", "MongoDB", "Node.js", "Express.js"],
+    status: "published",
+    liveUrl: "https://www.immacare-clinic.it.com/",
+    image: "/images/projects/immacare-clinic.webp",
   },
   {
     id: "city-guide-concept",
     number: "02",
     name: "A city in your pocket.",
-    category: "Mobile",
+    platforms: ["Mobile"],
     kind: "mobile",
     description:
       "A sample mobile concept for discovering nearby places through a simple, map-first experience.",
@@ -227,7 +231,7 @@ export const projects: Project[] = [
     id: "workspace-concept",
     number: "03",
     name: "Room for better teamwork.",
-    category: "Web",
+    platforms: ["Web"],
     kind: "workspace",
     description:
       "A sample workspace concept that brings tasks, project progress, and team conversations together.",

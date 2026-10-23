@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
-test("desktop page, live GitHub activity, concept filters, and accessible dialogs", async ({
+test("desktop page, live GitHub activity, project filters, and accessible dialogs", async ({
   page,
 }) => {
   const errors: string[] = [];
@@ -18,8 +18,48 @@ test("desktop page, live GitHub activity, concept filters, and accessible dialog
   expect(
     await page.locator("button.contribution-day:not(.contribution-level-0)").count(),
   ).toBeGreaterThan(0);
-  await page.getByRole("button", { name: "Mobile", exact: true }).click();
-  await expect(page.locator(".project-card")).toHaveCount(1);
+  const clinicProject = page.getByRole("button", {
+    name: "Explore ImmaCare — Clinic Management System",
+    exact: true,
+  });
+  for (const platform of ["Web", "Mobile"]) {
+    await page.getByRole("button", { name: platform, exact: true }).click();
+    await expect(page.locator(".project-card")).toHaveCount(2);
+    await expect(clinicProject).toBeVisible();
+    await expect(clinicProject).toContainText("WEB & MOBILE APPLICATION");
+  }
+  await clinicProject.click();
+  const clinicDialog = page.getByRole("dialog");
+  await expect(
+    clinicDialog.getByRole("heading", { name: "ImmaCare — Clinic Management System" }),
+  ).toBeVisible();
+  await expect(clinicDialog).toContainText("Live project / Web & Mobile");
+  await expect(clinicDialog.locator(".project-disclosure")).toHaveCount(0);
+  await expect(clinicDialog.getByRole("link", { name: "Visit project" })).toHaveAttribute(
+    "href",
+    "https://www.immacare-clinic.it.com/",
+  );
+  await expect(clinicDialog.getByRole("link", { name: "Visit project" })).toHaveAttribute(
+    "rel",
+    "noopener noreferrer",
+  );
+  for (const technology of [
+    "Next.js",
+    "Tailwind CSS",
+    "TypeScript",
+    "MongoDB",
+    "Node.js",
+    "Express.js",
+  ]) {
+    await expect(clinicDialog.getByText(technology, { exact: true })).toBeVisible();
+  }
+  await expect(clinicDialog.getByRole("img")).not.toHaveJSProperty("naturalWidth", 0);
+  await page.screenshot({
+    path: "test-results/immacare-project-desktop.png",
+    animations: "disabled",
+  });
+  await page.keyboard.press("Escape");
+  await expect(page.getByRole("dialog")).toHaveCount(0);
   await page
     .getByRole("button", { name: "Explore A city in your pocket., sample concept" })
     .click();
@@ -53,7 +93,7 @@ test("theme persists and skills and experience respond to input", async ({ page 
   const internship = page.locator(".experience-item").last();
   await internship.getByRole("button").click();
   await expect(
-    internship.getByText("Led and coordinated a team of 17 fellow interns", { exact: false }),
+    internship.getByText("Led and coordinated a team of 17 interns", { exact: false }),
   ).toBeVisible();
   await page.evaluate(() => {
     (document.activeElement as HTMLElement)?.blur();
@@ -75,6 +115,20 @@ test("mobile menu, form validation, keyboard calendar, and responsive widths", a
     .getByRole("navigation", { name: "Mobile navigation" })
     .getByRole("link", { name: "Contact" })
     .click();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+  await page.getByRole("button", { name: "Explore ImmaCare — Clinic Management System" }).click();
+  const clinicDialog = page.getByRole("dialog");
+  await expect(clinicDialog.getByRole("img")).not.toHaveJSProperty("naturalWidth", 0);
+  await clinicDialog.getByRole("link", { name: "Visit project" }).scrollIntoViewIfNeeded();
+  await expect(clinicDialog.getByRole("link", { name: "Visit project" })).toBeVisible();
+  expect(await clinicDialog.evaluate((dialog) => dialog.scrollWidth <= dialog.clientWidth)).toBe(
+    true,
+  );
+  await page.screenshot({
+    path: "test-results/immacare-project-mobile.png",
+    animations: "disabled",
+  });
+  await page.keyboard.press("Escape");
   await expect(page.getByRole("dialog")).toHaveCount(0);
   await page.getByRole("button", { name: "Send message", exact: true }).click();
   await expect(page.getByText("Please enter a name between 2 and 80 characters.")).toBeVisible();

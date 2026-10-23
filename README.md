@@ -28,10 +28,11 @@ The browser suite uses an installed Google Chrome in an isolated test profile. I
 ## Content and assets
 
 - Edit **`src/content/portfolio.ts`** for profile details, skills, experience, certificates, social links, and projects.
-- Professional content is transcribed from the supplied October 2026 CV. Exact employment titles and dates are retained; the public title is **Full Stack Developer**.
-- The original resume is in `public/resume/prince-barachiel-malonzo-resume.pdf`.
+- Professional content is transcribed from the updated CV supplied on October 23, 2026. Exact employment titles and dates are retained; the public title is **Full Stack Developer**.
+- The latest supplied resume is served from `public/resume/prince-barachiel-malonzo-resume.pdf`.
 - The original 240×240 portrait was extracted from that resume without generating or retouching the person. Replace `public/images/prince-malonzo.png` with a higher-resolution original when available, retaining a square crop or adjusting `Hero`'s image dimensions.
-- The three project cards are **temporary, illustrative concepts requested by Prince**. Their interfaces, figures, suggested stacks, and descriptions are sample content. They are labelled on the cards and in their dialogs; they are not claims of completed work or client results.
+- **ImmaCare — Clinic Management System** is a published Web and Mobile project, linked to [the live site](https://www.immacare-clinic.it.com/). It appears under both platform filters. Its stack was supplied by Prince: Next.js, Tailwind CSS, TypeScript, MongoDB, Node.js, and Express.js. The local preview at `public/images/projects/immacare-clinic.webp` is a screenshot of the public landing page.
+- The other two project cards are **temporary, illustrative concepts requested by Prince**. Their interfaces, figures, suggested stacks, and descriptions are sample content. They are labelled on the cards and in their dialogs; they are not claims of completed work or client results.
 - To publish an actual project, replace its concept data, set `status: "published"`, and add its screenshot under `public/images/` with the `image`, `contribution`, `repository`, and `liveUrl` fields as appropriate. Only supplied links become buttons. No fake external links are shipped.
 - Freelance availability is shown in the hero and contact sections. Edit `profile.availability` to update the badge.
 - The National University shield is served locally from `public/images/national-university-logo.webp`. It is the unmodified 2× logo asset from [the university's official website](https://www.nu.edu.ph/), downloaded from its [official CDN](https://dboqplvzu03z6.cloudfront.net/web/production/assets/nu-avatar@2x-5015cf6469c728b152c96e2ee9efb68b453a002934450ab3f54755d9a29d0ea9.webp).
